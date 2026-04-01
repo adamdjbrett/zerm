@@ -10,6 +10,15 @@ themeDemo: https://zerm.ejmg.now.sh/
 themeAuthor: elias julian marko garcia
 themeLicense: MIT
 hasSearch: true
+showMenuItems: 2
+menuMore: show more
+logoText: zerm
+logoHomeLink: /
+readMore: read more
+fullWidth: false
+center: false
+showAuthor: true
+showTags: true
 styles:
   - /style.css
   - /color/green.css
@@ -18,6 +27,8 @@ navigation:
     url: /
   - label: Blog
     url: /blog/
+  - label: Search
+    url: /search/
   - label: About
     url: /about/
   - label: Contact

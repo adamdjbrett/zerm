@@ -1,0 +1,38 @@
+{% macro menu(metadata) %}
+{% set nav = metadata.navigation or [] %}
+{% set showMenuItems = metadata.showMenuItems or 0 %}
+<nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    {% if showMenuItems > 0 %}
+      {% for item in nav %}
+        {% if loop.index0 < showMenuItems %}
+        <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {% if nav.length > showMenuItems %}
+      <ul class="menu__sub-inner">
+        <li class="menu__sub-inner-more-trigger">{{ metadata.menuMore or 'show more' }} ▾</li>
+        <ul class="menu__sub-inner-more hidden">
+          {% for item in nav %}
+            {% if loop.index0 >= showMenuItems %}
+            <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </ul>
+      {% endif %}
+    {% else %}
+      {% for item in nav %}
+      <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    {% for item in nav %}
+    <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endmacro %}

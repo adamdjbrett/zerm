@@ -1,0 +1,16 @@
+{% import "macros/logo.njk" as logo %}
+{% import "macros/menu.njk" as menu %}
+
+{% macro header(metadata) %}
+<header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      {{ logo.logo(metadata) }}
+    </div>
+    <div class="menu-trigger">menu</div>
+  </div>
+  {% if metadata.navigation and metadata.navigation.length > 0 %}
+  {{ menu.menu(metadata) }}
+  {% endif %}
+</header>
+{% endmacro %}

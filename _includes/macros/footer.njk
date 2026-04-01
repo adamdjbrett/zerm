@@ -1,0 +1,14 @@
+{% macro copyright(metadata, build) %}
+{% if metadata.copyright %}
+<div class="copyright copyright--user">{{ metadata.copyright | safe }}</div>
+{% else %}
+<div class="copyright">
+  <span>© {{ "now" | readableDate("yyyy") }} <a href="{{ metadata.themeHomepage }}">{{ metadata.themeName }}</a> :: Powered by <a href="https://11ty.dev">11ty {{ build.eleventyVersion }}</a></span>
+  <span>:: Theme made by <a href="https://github.com/ejmg">ejmg</a></span>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro script() %}
+<script src="/assets/js/main.js"></script>
+{% endmacro %}

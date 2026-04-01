@@ -1,16 +1,6 @@
 ---
 layout: layouts/base.njk
-title: Home
+title: zerm
 ---
-<h2>zerm Port</h2>
-<p>This repository is an Eleventy 3.1.5 + Luxon port of the Zola <strong>zerm</strong> theme.</p>
-<p>Original theme: <a href="https://github.com/ejmg/zerm">https://github.com/ejmg/zerm</a></p>
-<p>Live demo: <a href="https://zerm.ejmg.now.sh/">https://zerm.ejmg.now.sh/</a></p>
-<h3>Recent Posts</h3>
-{% for post in collections.posts %}
-  <article class="post-card h-entry">
-    <h4 class="p-name"><a class="u-url" href="{{ post.url }}">{{ post.data.title }}</a></h4>
-    <p><time class="dt-published" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time></p>
-    <p class="p-summary">{{ post.data.description or "" }}</p>
-  </article>
-{% endfor %}
+{% import "macros/lists.njk" as lists %}
+{{ lists.list_pages(collections.posts, metadata) }}

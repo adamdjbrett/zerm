@@ -437,14 +437,15 @@ ol ol {
 .container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: calc(75ch + 80px);
+  margin: 0 auto;
   padding: 40px;
-  max-width: 864px;
   min-height: 100vh;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: none;
 }
 .container.full, .container.center {
   border: none;
-  margin: 0 auto;
 }
 .container.full {
   max-width: 100%;

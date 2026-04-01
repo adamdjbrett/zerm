@@ -7,15 +7,7 @@ pagination:
   alias: postsPage
 permalink: "/blog/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
 ---
-<h2>Blog</h2>
-{% for post in postsPage %}
-  <article class="post-card h-entry">
-    <h3 class="p-name"><a class="u-url" href="{{ post.url }}">{{ post.data.title }}</a></h3>
-    <p><time class="dt-published" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time></p>
-    <p class="p-summary">{{ post.data.description or "" }}</p>
-  </article>
-{% endfor %}
-<nav aria-label="Pagination" class="pagination">
-  {% if pagination.href.previous %}<a href="{{ pagination.href.previous }}">&larr; Newer</a>{% endif %}
-  {% if pagination.href.next %}<a href="{{ pagination.href.next }}">Older &rarr;</a>{% endif %}
-</nav>
+{% import "macros/lists.njk" as lists %}
+{% import "macros/pagination.njk" as pager %}
+{{ lists.list_pages(postsPage, metadata) }}
+{{ pager.paginate(pagination.href.previous, pagination.href.next) }}

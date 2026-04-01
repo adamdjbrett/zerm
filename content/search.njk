@@ -1,0 +1,21 @@
+---
+layout: layouts/page.njk
+title: Search
+permalink: /search/
+published: true
+enableSearch: true
+---
+<div id="search"></div>
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    if (!window.PagefindUI) return;
+    const root = document.getElementById("search");
+    if (!root) return;
+    new window.PagefindUI({
+      element: "#search",
+      showSubResults: true,
+      resetStyles: false
+    });
+  });
+</script>

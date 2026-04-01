@@ -1,28 +1,42 @@
 ---
 layout: layouts/base.njk
 ---
-<article class="h-entry">
-  <h1 class="p-name">{{ title }}</h1>
-  <p>
-    <time class="dt-published" datetime="{{ date | htmlDateString }}">{{ date | readableDate }}</time>
-    by <span class="p-author h-card"><a class="p-name u-url" href="{{ metadata.url }}">{{ author or metadata.author }}</a></span>
-  </p>
+{% import "macros/pagination.njk" as pagination %}
+{% set nav = collections.posts | postNav(page.url) %}
+{% set newerUrl = nav.newer.url if nav.newer else null %}
+{% set olderUrl = nav.older.url if nav.older else null %}
 
-  {% if tags and tags.length %}
-  <p>
-    {% for tag in tags %}<a rel="tag" href="/tags/{{ tag | slugify }}/">#{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}
-  </p>
-  {% endif %}
+<article class="post h-entry">
+  <header>
+    <h1 class="post-title p-name">
+      <a class="u-url" href="{{ page.url }}">{{ title }}</a>
+    </h1>
 
-  {% if page.url %}<a class="u-url" href="{{ page.url | absoluteUrl(metadata.url) }}" style="display:none">Permalink</a>{% endif %}
+    <div class="post-meta">
+      <span class="post-date">
+        <time class="dt-published" datetime="{{ date | htmlDateString }}">{{ date | readableDate("yyyy.MM.dd") }}</time>
+        {% if updated %}
+          [Updated: <time datetime="{{ updated | htmlDateString }}">{{ updated | readableDate("yyyy.MM.dd") }}</time>]
+        {% endif %}
+      </span>
 
-  <div class="e-content">{{ content | safe }}</div>
+      {% if metadata.showAuthor %}
+      <span class="post-author">
+        :: <span class="p-author h-card"><a class="p-name u-url" href="{{ metadata.url }}">{{ author or metadata.author }}</a></span>
+      </span>
+      {% endif %}
 
-  {% set nav = collections.posts | postNav(page.url) %}
-  <nav aria-label="Post navigation" class="pagination">
-    {% if nav.newer %}<a class="button previous" href="{{ nav.newer.url }}">&larr; Newer</a>{% endif %}
-    {% if nav.older %}<a class="button next" href="{{ nav.older.url }}">Older &rarr;</a>{% endif %}
-  </nav>
+      {% if metadata.showTags and tags and tags.length %}
+      <span class="post-tags">:: {% for tag in tags %}#<a rel="tag" href="/tags/{{ tag | slugify }}/">{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}</span>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="post-content e-content">
+    {{ content | safe }}
+  </div>
+
+  {{ pagination.paginate(newerUrl, olderUrl) }}
 
   <script type="application/ld+json">
     {
@@ -31,10 +45,10 @@ layout: layouts/base.njk
       "headline": {{ title | dump | safe }},
       "description": {{ (description or metadata.description) | dump | safe }},
       "datePublished": {{ date | isoDate | dump | safe }},
-      "dateModified": {{ date | isoDate | dump | safe }},
+      "dateModified": {{ (updated or date) | isoDate | dump | safe }},
       "author": {"@type": "Person", "name": {{ (author or metadata.author) | dump | safe }}},
       "mainEntityOfPage": {"@type": "WebPage", "@id": {{ page.url | absoluteUrl(metadata.url) | dump | safe }}},
-      "publisher": {"@type": "Organization", "name": {{ metadata.title | dump | safe }}}
+      "publisher": {"@type": "Organization", "name": {{ metadata.title | dump | safe }} }
     }
   </script>
 </article>

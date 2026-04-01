@@ -1,0 +1,53 @@
+{% macro fonts() %}
+<link rel="preload" href="/assets/fonts/FiraCode-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" href="/assets/fonts/FiraCode-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+{% endmacro %}
+
+{% macro general_meta(pageTitle, pageDescription, metadata, build) %}
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="description" content="{{ pageDescription }}">
+<meta name="generator" content="Eleventy v{{ build.eleventyVersion }}">
+{% if metadata.keywords %}
+<meta name="keywords" content="{{ metadata.keywords | join(', ') }}">
+{% endif %}
+{% endmacro %}
+
+{% macro structured_data(pageTitle, pageDescription, pageUrl, metadata) %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ metadata.title | dump | safe }},
+  "description": {{ pageDescription | dump | safe }},
+  "url": {{ pageUrl | dump | safe }},
+  "inLanguage": {{ metadata.language | dump | safe }}
+}
+</script>
+{% endmacro %}
+
+{% macro styling(metadata) %}
+{% for styleHref in metadata.styles %}
+<link rel="stylesheet" href="{{ styleHref }}">
+{% endfor %}
+{% endmacro %}
+
+{% macro favicon(metadata) %}
+{% for icon in metadata.favicons %}
+<link rel="{{ icon.rel }}" href="{{ icon.href }}"{% if icon.type %} type="{{ icon.type }}"{% endif %}{% if icon.sizes %} sizes="{{ icon.sizes }}"{% endif %}>
+{% endfor %}
+{% endmacro %}
+
+{% macro rss(metadata) %}
+<link rel="alternate" type="application/atom+xml" title="{{ metadata.title }} Atom Feed" href="/feed/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="{{ metadata.title }} RSS Feed" href="/feed/feed.rss">
+<link rel="alternate" type="application/feed+json" title="{{ metadata.title }} JSON Feed" href="/feed/feed.json">
+<link rel="alternate" type="text/plain" title="{{ metadata.title }} twtxt" href="/feed/twtxt.txt">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+{% endmacro %}
+
+{% macro search_css(enableSearch) %}
+{% if enableSearch %}
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+{% endif %}
+{% endmacro %}

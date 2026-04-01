@@ -70,16 +70,21 @@ export default function(eleventyConfig) {
     };
   });
 
+  eleventyConfig.addFilter("postsWithTag", (posts, tag) => {
+    if (!Array.isArray(posts)) return [];
+    return posts.filter((item) => Array.isArray(item?.data?.tags) && item.data.tags.includes(tag));
+  });
+
   eleventyConfig.addCollection("posts", (collectionApi) =>
     collectionApi
-      .getFilteredByGlob("content/blog/*.{md,njk,html}")
+      .getFilteredByGlob("content/blog/*.md")
       .filter((item) => item.data.published !== false && item.data.draft !== true)
       .sort((a, b) => b.date - a.date)
   );
 
   eleventyConfig.addCollection("tagList", (collectionApi) => {
     const tags = new Set();
-    for (const item of collectionApi.getFilteredByGlob("content/blog/*.{md,njk,html}")) {
+    for (const item of collectionApi.getFilteredByGlob("content/blog/*.md")) {
       if (item.data.published === false || item.data.draft === true) continue;
       for (const tag of item.data.tags || []) {
         if (["all", "posts"].includes(tag)) continue;

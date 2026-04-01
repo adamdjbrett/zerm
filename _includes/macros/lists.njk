@@ -1,0 +1,29 @@
+{% import "macros/posts.njk" as posts %}
+
+{% macro list_pages(pages, metadata) %}
+<section class="posts">
+  {% for page in pages %}
+  <div class="post on-list">
+    <header>
+      <h1 class="post-title">
+        <a href="{{ page.url }}">{{ page.data.title }}</a>
+      </h1>
+    </header>
+
+    {{ posts.meta(page, metadata) }}
+
+    <div class="post-content">
+      {% if page.data.description %}
+      {{ page.data.description }}
+      {% endif %}
+    </div>
+
+    {% if page.data.description %}
+    <div>
+      <a class="read-more button" href="{{ page.url }}">{{ metadata.readMore or "read more" }} →</a>
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</section>
+{% endmacro %}

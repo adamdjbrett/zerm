@@ -4,9 +4,15 @@ title: Tags
 permalink: /tags/
 published: true
 ---
-<h2>Tags</h2>
-<ul>
-  {% for tag in collections.tagList %}
-  <li><a href="/tags/{{ tag | slugify }}/">{{ tag }}</a></li>
-  {% endfor %}
-</ul>
+<div class="post">
+  <h1 class="post-title">#tags</h1>
+  <ul>
+    {% for tag in collections.tagList %}
+    {% set tagPosts = collections.posts | postsWithTag(tag) %}
+    <li class="tag-list">
+      <a href="/tags/{{ tag | slugify }}/">#{{ tag }}</a>
+      ({{ tagPosts.length }} post{% if tagPosts.length != 1 %}s{% endif %})
+    </li>
+    {% endfor %}
+  </ul>
+</div>

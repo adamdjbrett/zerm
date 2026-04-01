@@ -1,0 +1,20 @@
+{% macro meta_fields(date, updated, tags, author, metadata) %}
+<div class="post-meta">
+  <span class="post-date">
+    {% if date %}{{ date | readableDate("yyyy.MM.dd") }}{% endif %}
+    {% if updated %}[Updated: {{ updated | readableDate("yyyy.MM.dd") }}]{% endif %}
+  </span>
+
+  {% if metadata.showAuthor %}
+  <span class="post-author">:: {{ author or metadata.author }}</span>
+  {% endif %}
+
+  {% if metadata.showTags and tags and tags.length %}
+  <span class="post-tags">:: {% for tag in tags %}#<a href="/tags/{{ tag | slugify }}/">{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}</span>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro meta(post, metadata) %}
+{{ meta_fields(post.date, post.data.updated, post.data.tags, post.data.author, metadata) }}
+{% endmacro %}

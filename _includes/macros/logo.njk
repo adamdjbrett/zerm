@@ -1,0 +1,5 @@
+{% macro logo(metadata) %}
+<a href="{{ metadata.logoHomeLink or '/' }}">
+  <div class="logo">{{ metadata.logoText or metadata.themeName or 'zerm' }}</div>
+</a>
+{% endmacro %}
