@@ -1,0 +1,22 @@
+---
+permalink: /humans.txt
+eleventyExcludeFromCollections: true
+published: true
+---
+/* THEME PORT CREDIT */
+Theme: {{ metadata.themeName }}
+Original Theme Homepage: {{ metadata.themeHomepage }}
+Original Theme Author: {{ metadata.themeAuthor }}
+Original Theme License: {{ metadata.themeLicense }}
+Original Theme Demo: {{ metadata.themeDemo }}
+
+/* GITHUB AUTHORS / CONTRIBUTORS */
+Contributors:
+{% for person in metadata.contributors %}- {{ person | safe }}
+{% endfor %}
+Co-authors:
+{% for person in metadata.coauthors %}- {{ person | safe }}
+{% endfor %}
+
+/* TECHNOLOGY */
+Built with: Eleventy {{ build.eleventyVersion }}, Nunjucks, Luxon

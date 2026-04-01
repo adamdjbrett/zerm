@@ -1,7 +1,21 @@
 {
-    "scripts":
-    {
-        "install": "curl -L -O https://github.com/getzola/zola/releases/download/v0.13.0/zola-v0.13.0-x86_64-unknown-linux-gnu.tar.gz && tar -xzf zola-v0.13.0-x86_64-unknown-linux-gnu.tar.gz",
-        "build": "./zola build"
-    }
+  "name": "zerm-11ty-port",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:css && rm -rf _site && eleventy --config=eleventy.config.js && pagefind --site _site --glob \"**/*.html\"",
+    "start": "npm run build:css && eleventy --serve --config=eleventy.config.js --incremental",
+    "build:css": "node scripts/build-css.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.5",
+    "@11ty/eleventy-plugin-rss": "^2.0.4",
+    "luxon": "^3.5.0",
+    "pagefind": "^1.4.0",
+    "sass": "^1.86.3"
+  }
 }

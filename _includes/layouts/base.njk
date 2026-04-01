@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="{{ metadata.language }}" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} | {{ metadata.title }}{% else %}{{ metadata.title }}{% endif %}</title>
+  <meta name="description" content="{{ description or metadata.description }}">
+  <meta name="generator" content="Eleventy v{{ build.eleventyVersion }}">
+
+  {% for icon in metadata.favicons %}
+  <link rel="{{ icon.rel }}" href="{{ icon.href }}"{% if icon.type %} type="{{ icon.type }}"{% endif %}{% if icon.sizes %} sizes="{{ icon.sizes }}"{% endif %}>
+  {% endfor %}
+
+  <link rel="alternate" type="application/atom+xml" title="{{ metadata.title }} Atom Feed" href="/feed/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="{{ metadata.title }} RSS Feed" href="/feed/feed.rss">
+  <link rel="alternate" type="application/feed+json" title="{{ metadata.title }} JSON Feed" href="/feed/feed.json">
+  <link rel="alternate" type="text/plain" title="{{ metadata.title }} twtxt" href="/feed/twtxt.txt">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ metadata.title | dump | safe }},
+      "description": {{ (description or metadata.description) | dump | safe }},
+      "url": {{ (url or '/') | absoluteUrl(metadata.url) | dump | safe }},
+      "inLanguage": {{ metadata.language | dump | safe }}
+    }
+  </script>
+
+  {% for styleHref in metadata.styles %}
+  <link rel="stylesheet" href="{{ styleHref }}">
+  {% endfor %}
+  {% if metadata.hasSearch %}<link rel="stylesheet" href="/pagefind/pagefind-ui.css">{% endif %}
+
+  <style>
+    .h-card {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    .site-shell {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+    .site-nav a {
+      text-decoration: none;
+    }
+    .site-footer {
+      margin-top: 2rem;
+      border-top: 1px solid currentColor;
+      padding-top: 1rem;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body class="theme-{{ metadata.themeSlug }}">
+  <div class="site-shell">
+    <header>
+      <h1><a class="p-name u-url" href="{{ metadata.url }}">{{ metadata.title }}</a></h1>
+      <p class="p-note">{{ metadata.description }}</p>
+      <nav class="site-nav" aria-label="Primary">
+        {% for item in metadata.navigation %}<a href="{{ item.url }}">{{ item.label }}</a>{% endfor %}
+      </nav>
+      {% if metadata.hasSearch %}
+      <div id="search" style="margin-top:1rem;"></div>
+      {% endif %}
+    </header>
+
+    <main>{{ content | safe }}</main>
+
+    <footer class="site-footer">
+      <p>Built with <a href="https://11ty.dev">11ty</a> {{ build.eleventyVersion }} on {{ "now" | readableDate("yyyy") }}.</p>
+      <p>Theme port: <a href="{{ metadata.themeHomepage }}">{{ metadata.themeName }}</a> by {{ metadata.themeAuthor }}.</p>
+      <p><a href="/feed/feed.xml">Atom</a> | <a href="/feed/feed.rss">RSS</a> | <a href="/feed/feed.json">JSON</a> | <a href="/feed/twtxt.txt">twtxt</a></p>
+      <div class="h-card">
+        <a class="p-name u-url" href="{{ metadata.url }}">{{ metadata.title }}</a>
+        <img class="u-photo" src="{{ metadata.favicons[0].href }}" alt="{{ metadata.title }}">
+        <p class="p-note">{{ metadata.description }}</p>
+      </div>
+    </footer>
+  </div>
+
+  {% if metadata.hasSearch %}
+  <script src="/pagefind/pagefind-ui.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      if (!window.PagefindUI) return;
+      new window.PagefindUI({
+        element: "#search",
+        showSubResults: true,
+        resetStyles: false
+      });
+    });
+  </script>
+  {% endif %}
+</body>
+</html>

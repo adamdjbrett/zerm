@@ -1,0 +1,10 @@
+---
+permalink: /feed/twtxt.txt
+eleventyExcludeFromCollections: true
+published: true
+---
+# twtxt is an open, distributed microblogging format.
+# nick = {{ metadata.title }}
+# url = {{ metadata.url }}
+{% for post in collections.posts %}{{ post.date | isoDate }}\t{{ post.url | absoluteUrl(metadata.url) }}\t{{ post.data.title }}{% if post.data.description %} - {{ post.data.description }}{% endif %}
+{% endfor %}
